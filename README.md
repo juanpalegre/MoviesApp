@@ -9,4 +9,4 @@ Aplicación desarrollada siguiendo una Arquitectura limpia, en la cual se incluy
 -Recycler View;  
 -Navigation Components.
 
-https://github.com/juanpalegre/MoviesApp/blob/master/app/src/main/res/2022-08-28%20(2).png
+![alt text](https://github.com/juanpalegre/MoviesApp/blob/master/app/src/main/res/2022-08-28%20(2).png)
