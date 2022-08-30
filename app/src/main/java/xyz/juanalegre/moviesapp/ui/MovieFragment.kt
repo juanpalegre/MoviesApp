@@ -11,6 +11,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
 import xyz.juanalegre.moviesapp.R
 import xyz.juanalegre.moviesapp.core.Resource
+import xyz.juanalegre.moviesapp.data.local.AppDatabase
+import xyz.juanalegre.moviesapp.data.local.LocalMovieDataSource
 import xyz.juanalegre.moviesapp.data.model.Movie
 import xyz.juanalegre.moviesapp.data.remote.MovieDataSource
 import xyz.juanalegre.moviesapp.databinding.FragmentMovieBinding
@@ -27,7 +29,8 @@ class MovieFragment : Fragment(R.layout.fragment_movie), MovieAdapter.OnMovieCli
 
     private lateinit var binding: FragmentMovieBinding
     private val viewModel by viewModels<MovieViewModel> { MovieViewModelFactory(MovieRepositoryImpl(
-        MovieDataSource(RetrofitClient.webService)
+        MovieDataSource(RetrofitClient.webService),
+        LocalMovieDataSource(AppDatabase.getDatabase(requireContext()).movieDao())
     )) }
     private lateinit var concatAdapter: ConcatAdapter
 
