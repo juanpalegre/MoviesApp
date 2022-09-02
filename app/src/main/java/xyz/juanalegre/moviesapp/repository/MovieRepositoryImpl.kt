@@ -1,5 +1,6 @@
 package xyz.juanalegre.moviesapp.repository
 
+import xyz.juanalegre.moviesapp.core.InternetCheck
 import xyz.juanalegre.moviesapp.data.local.LocalMovieDataSource
 import xyz.juanalegre.moviesapp.data.model.MovieList
 import xyz.juanalegre.moviesapp.data.model.toMovieEntitie
@@ -11,23 +12,35 @@ class MovieRepositoryImpl(
     : MovieRepository {
 
     override suspend fun getUpcomingMovies(): MovieList {
-        dataSource.getUpcomingMovieList().results.forEach { movie ->
-            dataSourceLocal.saveMovie(movie.toMovieEntitie("upcoming"))
+        return if (InternetCheck.isNetworkAvailable()) {
+            dataSource.getUpcomingMovieList().results.forEach { movie ->
+                dataSourceLocal.saveMovie(movie.toMovieEntitie("upcoming"))
+            }
+            dataSourceLocal.getUpcomingMovieList()
+        } else {
+            dataSourceLocal.getUpcomingMovieList()
         }
-        return dataSourceLocal.getUpcomingMovieList()
     }
 
     override suspend fun getTopRatedMovies(): MovieList {
-        dataSource.getTopRatedMovieList().results.forEach { movie ->
-            dataSourceLocal.saveMovie(movie.toMovieEntitie("toprated"))
+        return if (InternetCheck.isNetworkAvailable()) {
+            dataSource.getTopRatedMovieList().results.forEach { movie ->
+                dataSourceLocal.saveMovie(movie.toMovieEntitie("toprated"))
+            }
+            dataSourceLocal.getTopRatedMovieList()
+        } else {
+            dataSourceLocal.getTopRatedMovieList()
         }
-        return dataSourceLocal.getTopRatedMovieList()
     }
 
     override suspend fun getPopularMovies(): MovieList {
-        dataSource.getPopularMovieList().results.forEach { movie ->
-            dataSourceLocal.saveMovie(movie.toMovieEntitie("popular"))
+        return if (InternetCheck.isNetworkAvailable()) {
+            dataSource.getPopularMovieList().results.forEach { movie ->
+                dataSourceLocal.saveMovie(movie.toMovieEntitie("popular"))
+            }
+            dataSourceLocal.getPopularMovieList()
+        } else {
+            dataSourceLocal.getPopularMovieList()
         }
-        return dataSourceLocal.getPopularMovieList()
     }
 }
